@@ -135,6 +135,57 @@ durbin_watson = function(e) {
     )
   ))
 }
+
+
+
+#Función de usuario medidas() la cual depende de y y e
+#y: arreglo numérico que presenta los valores de la serie
+#e: vector de residuos del modelo usado
+#Retorna:
+#MSE: Media de cuadrados del error
+#RMSE: Raíz cuadrada de la media de cuadrados del error
+#MAD: Media de desviación absoluta
+#MAPE: Media porcentual de errores aboslutos
+#MASE
+medidas <- function(y,e,s=NULL){
+  stopifnot(
+    "El vector de errores 'e' debe ser numérico." = is.numeric(e),
+    "El vector 'e' no debe contener valores missing (NA)." = !any(is.na(e)),
+    "El vector 'e' debe tener al menos 3 observaciones." = length(e) >= 3,
+    "El argumento 'y' debe ser un vector numérico." = is.numeric(y),
+    "El vector 'y' no debe contener valores missing (NA)." = !any(is.na(y))
+  )
+  #Se saca el número N de observaciones
+  N = length(e)
+  
+  #MSE
+  MSE = mean(e^2)
+  
+  #RMSE
+  RMSE = sqrt(MSE)
+  
+  #MAD
+  MAD = mean(abs(e))
+  
+  #MAPE
+  MAPE = 100*mean(abs(e)/y)
+  
+  #MASE
+  if (!is.null(s)){
+    MASE = MAD/(1/(N-s)*sum(abs(y[(s+1):N]-y[1:(N-s)])))  
+  } else {
+    MASE = NULL
+  }
+  
+  resultados = list(MSE=MSE,RMSE=RMSE,MAD=MAD,MAPE=MAPE,MASE=MASE)
+  
+  return(resultados)
+  
+}
+
+
+
+
 #Ejemplo
 t = 1:100
 x = 5 + 1.5*t +0.3*t^2+2*cos(pi/3*t) + rnorm(100,4,36)
@@ -153,3 +204,4 @@ Box.test(data$y,lag=24,type="Ljung-Box",fitdf = p)
 
 e = data$y - yhat
 durbin_watson(e)
+medidas(data$y,e,s=4)
