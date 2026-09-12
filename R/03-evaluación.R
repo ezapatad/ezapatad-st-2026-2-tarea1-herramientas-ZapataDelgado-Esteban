@@ -5,7 +5,8 @@ library(tidyr)
 library(tibble)
 library(ggplot2)
 library(patchwork)
-source("https://raw.githubusercontent.com/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban/refs/heads/main/R/02-metodos.R")
+source("https://cdn.jsdelivr.net/gh/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban@main/R/02-metodos.R", encoding = "UTF-8")
+
 
 #Función de usuario ljung_box() la cual depende de las variables r,T_obs,m,p
 #r: arreglo númerico donde se guardan los valores de la acf

@@ -6,7 +6,7 @@ library(tibble)
 library(ggplot2)
 library(patchwork)
 library(stats) #Librería usada para calcular pacf
-source("https://raw.githubusercontent.com/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban/main/R/00-lectura.R")
+source("https://cdn.jsdelivr.net/gh/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban@main/R/00-lectura.R", encoding = "UTF-8")
 
 
 #Función de usuario graficar_serie, que recibe las variables datos,tiulo
