@@ -1,8 +1,140 @@
 \#Archivo README.md 
 
+1. **Qué contiene el repositorio**
 
 
-**Uso de asistes de inteligencia artificial**
+
+| Archivo | Contenido | Dependencias |
+
+| :--- | :--- | :--- |
+
+| `R/00-lectura.R` | Implementación de `leer\_serie()` para objetos `ts` o `.csv` con fechas equiespaciadas. | `base`, `stats`, `tibble` |
+
+| `R/01-graficos.R` | Implementación de `graficar\_serie()` y `correlograma()` (ACF/PACF a mano, $m=\\min\\{\\lfloor T/4\\rfloor,24\\}$). | `ggplot2`, `patchwork`, `stats` |
+
+| `R/02-metodos.R` | Ocho métodos de pronóstico (`ajustar\_media`, `ajustar\_mm`, `ajustar\_ses`, `ajustar\_dmm`, `ajustar\_tendencia` \[lineal, cuadrática, exponencial], `ajustar\_holt`) y función `optimizar()`. | `base` |
+
+| `R/03-evaluacion.R` | Funciones `medidas()`, `ljung\_box()`, `jarque\_bera()`, `durbin\_watson()` y `validar\_errores()`. | `stats`, `ggplot2`, `patchwork` |
+
+| `ejemplos/ejemplos.R` | Script automatizado que carga el paquete/funciones y corre los 8 ejemplos en orden. | `base`, `ggplot2` |
+
+| `informe/informe.qmd` | Informe detallado en Quarto con el análisis riguroso de las 8 series y pruebas de hipótesis completas. | `base`, `ggplot2` |
+
+| `informe/informe.html` | Documento renderizado del informe de la Tarea 1. | N/A |
+
+| `figs/` | Carpeta de salida con todas las figuras generadas por `ejemplos.R`. | N/A |
+
+| `sesion-info.txt` | Salida de `sessionInfo()` capturada automáticamente al finalizar la ejecución de la entrega. | `base` |
+
+
+
+
+
+**2. ¿Cómo se corre?**
+
+
+
+Para clonar el repositorio y ejecutar la verificación completa de forma automatizada desde una instalación limpia de R (versión 4.3 o superior), ejecute los siguientes comandos en su terminal o consola de R:
+
+
+
+\# Clonar el repositorio y acceder a la carpeta
+
+git clone \[https://github.com/tu-usuario/st-2026-2-tarea1-herramientas-apellidos-nombres.git](https://github.com/tu-usuario/st-2026-2-tarea1-herramientas-apellidos-nombres.git)
+
+cd st-2026-2-tarea1-herramientas-apellidos-nombres
+
+
+
+
+
+**3. Ejemplo de como usar las funciones**
+
+\# a) Cargar módulos del repositorio
+
+source("R/00-lectura.R")
+
+source("R/01-graficos.R")
+
+source("R/02-metodos.R")
+
+source("R/03-evaluacion.R")
+
+
+
+\# b) Cargar y estructurar la serie de tiempo 
+
+datos = leer\_serie(Serie, fuente = "UniversidadNacional", unidad = "N")
+
+
+
+\# c) Optimización de parámetros alpha y beta sobre la rejilla por MSE 1-paso
+
+res\_opt = optimizar(datos$y, metodo = "holt")
+
+
+
+\# d) Ajustar el modelo final con los parámetros óptimos encontrados
+
+fit\_holt = ajustar\_holt(y = datos$y, alpha = res\_opt$optimo$alpha, beta = res\_opt$optimo$beta)
+
+
+
+\# 5. Generar pronósticos extramuestrales a h = 5 pasos adelante
+
+pronosticos = fit\_holt$pronosticar(h = 5)
+
+
+
+\# Visualizar resultados
+
+print(fit\_holt$parametros)
+
+print(pronosticos)
+
+
+
+
+
+**4. Convenciones**
+
+1\. Inicializaciones:
+
+&#x20;  - Media simple: Se inicializa de forma recursiva como Yhat\_2 = Y\_1.
+
+&#x20;  - Media móvil: Calentamiento de k períodos (los primeros k valores toman NA).
+
+&#x20;  - Suavizamiento exponencial simple (SES): Inicialización de nivel en Yhat\_2 = Y\_1.
+
+&#x20;  - Doble media móvil: Calentamiento de 2k - 1 períodos (los primeros 2k - 1 valores toman NA).
+
+&#x20;  - Tendencias (lineal, cuadrática, exponencial): Calentamiento de 0 observaciones. La versión exponencial linealizada ln(Y\_t) = a + theta\*t + e\_t produce la mediana
+
+condicional exp(a\_hat + theta\_hat\*t)
+
+&#x20;  - Holt lineal: Estado inicial de nivel L\_1 = Y\_1 y tendencia T\_1 = Y\_2 - Y\_1
+
+
+
+2\. Divisor de la ACF y Banda de Confianza:
+
+&#x20;  - Divisor único T
+
+&#x20;  - Banda del Correlograma: Basada en el resultado asintótico de Bartlett para ruido blanco i.i.d.: +- z\_{1-alpha/2} / sqrt(n) aprox. +- 1.96 / sqrt(n), donde n representa la cantidad de datos de la serie o errores graficados (reproduciendo la línea exacta de plot.acf: qnorm((1 + ci)/2) / sqrt(x$n.used)).
+
+
+
+3\. Escalamiento del MASE:
+
+&#x20;  - El factor de escala corresponde al error absoluto medio del pronóstico ingenuo (naive o naive estacional) dentro del tramo de estimación:
+
+&#x20;    Escala = (1 / (T\_train - 1)) \* sum\_{t=2}^{T\_train} |Y\_t - Y\_{t-1}|
+
+
+
+
+
+**5. Uso de asistes de inteligencia artificial**
 
 Para la función leer\_serie(), tuve un pequeño problema encontrando cómo obtener las fechas de las series cargadas con el objeto ts, llegando a lo siguiente:
 
