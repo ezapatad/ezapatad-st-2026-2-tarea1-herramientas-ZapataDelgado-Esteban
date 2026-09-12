@@ -115,14 +115,3 @@ leer_serie <- function(x, fuente, unidad) {
   
   lectura
 }
-
-
-# #Ejemplo de aplicación funcion leer_serie()
-# t = 1:36
-# x = 45 + 2*t + 2*cos(2*pi/3*t)+rnorm(36)
-# 
-# x = ts(x,frequency = 12,start=c(2005,8))
-# 
-# datos_ejemplo = leer_serie(x,"DANE","pesos")
-# attr(datos_ejemplo,"fuente")
-# attr(datos_ejemplo,"frecuencia")

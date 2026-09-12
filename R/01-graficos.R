@@ -99,16 +99,3 @@ correlograma <- function(datos, m = NULL){
   
   return(grafico1 / grafico2)
 }
-
-
-# #Ejemplo de aplicación funcion leer_serie()
-# t = 1:36
-# x = 45 + 2*t + 2*cos(pi/2*t)+rnorm(36)
-# 
-# x = ts(x,frequency = 12,start=c(2005,8))
-# 
-# datos_ejemplo = leer_serie(x,"DANE","pesos")
-# 
-# 
-# graficar_serie(datos_ejemplo,"Hola mundo")
-# correlograma(datos_ejemplo)

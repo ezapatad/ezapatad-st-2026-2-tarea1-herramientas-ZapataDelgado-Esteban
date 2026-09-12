@@ -489,6 +489,12 @@ ajustar_holt = function(y, alpha, beta) {
 #metodo: string que indica el metodo utilizado {mm,dmm,ses,holt}
 #rejilla: rango en el que se mueve el parametro del metodo
 #Retorna: 
+#rejilla_completa: rango donde se movió el parametro que se vario para optimizar
+#optimo: valor(es) óptimo(s) del parametro(s)
+#metodo: método utilizado (mismo que el ingresado como variable a la función),
+#en_borde: variable booleana que retorna TRUE o FALSE si es óptimo encontrado se encuentra en un extremo de la rejilla,
+#mensaje_borde: str de advertencia que indica si el óptimo encontrado esta en un extremo de la rejilla
+#grafico: figura con ggplot donde se muestra el MSE contra la rejilla, varia segun el metodo empleado
 optimizar = function(y, metodo = c("mm", "dmm", "ses", "holt"), rejilla = NULL) {
   
   stopifnot(
@@ -629,21 +635,4 @@ optimizar = function(y, metodo = c("mm", "dmm", "ses", "holt"), rejilla = NULL) 
   ))
 }
 
-#Ejemplo de aplicación funcion 
-# t = 1:36
-# x = 45 + 2*t + 2*cos(pi/2*t)+rnorm(36)
-# 
-# x = ts(x,frequency = 12,start=c(2005,8))
-# 
-# datos_ejemplo = leer_serie(x,"DANE","pesos")
-# 
-# 
-# graficar_serie(datos_ejemplo,"Hola mundo")
-# correlograma(datos_ejemplo)
-# ajustar_media(datos_ejemplo$y)$pronosticar(h=2)
-# ajustar_mm(datos_ejemplo$y,2)
-# ajustar_ses(datos_ejemplo$y,0.5)
-# ajustar_dmm(datos_ejemplo$y,2)
-# ajustar_tendencia(datos_ejemplo$y,"exponencial",corregir_sesgo = TRUE)
-# ajustar_holt(datos_ejemplo$y,0.5,0.4)
-# optimizar(datos_ejemplo$y,metodo="holt")
+
