@@ -25,7 +25,7 @@ graficar_serie <- function(datos,titulo){
   #Se construyen los gráficos
   ggplot(datos, aes(x=fecha,y=y)) + 
     geom_line(color="blue") + 
-    labs(tittle=titulo,x = "Tiempo [fecha]",y=paste("Serie[",unidad,"]"),caption = paste("Fuente:",fuente,"/ Número de observaciones:",nrow(datos)))
+    labs(title=titulo,x = "Tiempo [fecha]",y=paste("Serie[",unidad,"]"),caption = paste("Fuente:",fuente,"/ Número de observaciones:",nrow(datos)))
   
 }
 
