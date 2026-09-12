@@ -85,8 +85,56 @@ jarque_bera = function(e) {
   ))
 }
 
-
-
+##Función de usuario durbin_watson() la cual depende de las variables e
+#e: vector de residuos del modelo usado
+#Retorna: 
+#lista donde se almacena la conclusión de la prueba, el estadistico calculado,grados de libertad, valor crítico 
+durbin_watson = function(e) {
+  stopifnot(
+    "El vector de errores 'e' debe ser numérico." = is.numeric(e),
+    "El vector 'e' no debe contener valores missing (NA)." = !any(is.na(e)),
+    "El vector 'e' debe tener al menos 3 observaciones." = length(e) >= 3
+  )
+  
+  #Se estima pho(1)
+  rho_hat_1 = sum(e[2:length(e)] * e[1:(length(e)-1)]) / sum(e^2)
+  
+  #Cálculo estadístico de prueba
+  d = 2 * (1 - rho_hat_1)
+  
+  # 3. Verificación de la dirección del sesgo para configurar la prueba de hipótesis
+  if (rho_hat_1 > 0) {
+    tipo_prueba = "Autocorrelación Positiva"
+    H0 = "rho <= 0"
+    H1 = "rho > 0"
+    estadistico_evaluacion = d
+    criterio = "d < 2 (debido a rho_hat(1) > 0). Rechazar H0 si d < dL."
+  } else if (rho_hat_1 < 0) {
+    tipo_prueba = "Autocorrelación Negativa"
+    H0 = "rho >= 0"
+    H1 = "rho < 0"
+    estadistico_evaluacion = 4 - d
+    criterio = "d > 2 (debido a rho_hat(1) < 0). Rechazar H0 si (4 - d) < dL."
+  } else {
+    tipo_prueba = "Sin Autocorrelación"
+    H0 = "rho = 0"
+    H1 = "rho != 0"
+    estadistico_evaluacion = d
+    criterio = "d = 2 (rho_hat(1) = 0). Ausencia de autocorrelación lineal de primer orden."
+  }
+  
+  return(list(
+    estadistico = d,
+    rho_hat_1 = rho_hat_1,
+    prueba_hipotesis = list(
+      tipo = tipo_prueba,
+      H0 = H0,
+      H1 = H1,
+      estadistico_evaluacion = estadistico_evaluacion,
+      criterio_decision = criterio
+    )
+  ))
+}
 #Ejemplo
 t = 1:100
 x = 5 + 1.5*t +0.3*t^2+2*cos(pi/3*t) + rnorm(100,4,36)
@@ -97,8 +145,11 @@ data = leer_serie(x,"DANE","$")
 graficar_serie(data,"Gráfica serie")
 ajustar_tendencia(data$y,tipo = "cuadratica")
 p = ajustar_tendencia(data$y,tipo="cuadratica")$p
-
+yhat = ajustar_tendencia(data$y,tipo="cuadratica")$yhat
 acf_mano = correlograma(datos = data)$acf_mano
 
 ljung_box(r = acf_mano,T_obs = length(data$y),m = 24,p = p)
 Box.test(data$y,lag=24,type="Ljung-Box",fitdf = p)
+
+e = data$y - yhat
+durbin_watson(e)
