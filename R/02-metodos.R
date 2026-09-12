@@ -36,7 +36,7 @@ ajustar_media <- function(y){
   
   parametros = list(metodo = "Media Simple", T_obs = T_obs, y_barra = mean(y))
   
-  return(list(yhat = yhat, pronosticar = pronosticar_f, parametros = parametros))
+  return(list(yhat = yhat, pronosticar = pronosticar_f, parametros = parametros,p=0))
 }
 
 
@@ -87,7 +87,7 @@ ajustar_mm <- function(y, k){
   
   parametros = list(metodo = "mm", k = k, T_obs = T_obs, media_movil_final = media_movil_final)
   
-  return(list(yhat = yhat, pronosticar = pronosticar_fx, parametros = parametros))
+  return(list(yhat = yhat, pronosticar = pronosticar_fx, parametros = parametros,p=0))
 }
   
 
@@ -148,7 +148,7 @@ ajustar_ses <- function(y, alpha) {
   }
   
 
-  return(list(yhat = yhat,pronosticar = pronosticar_fx,parametros = parametros))
+  return(list(yhat = yhat,pronosticar = pronosticar_fx,parametros = parametros),p=1)
 }
 
 
@@ -212,7 +212,7 @@ ajustar_dmm <- function(y, k) {
     E_T + beta1_T*vector_h
   }
 
-  return(list(yhat = yhat,pronosticar = pronosticar_fx,parametros = parametros))
+  return(list(yhat = yhat,pronosticar = pronosticar_fx,parametros = parametros,p=0))
 }
 
 
@@ -248,10 +248,13 @@ ajustar_tendencia <- function(y, tipo = c("lineal", "cuadratica", "exponencial")
   # Se crea la matrix de diseño para el modelo lm
   if (tipo == "lineal") {
     X = cbind(rep(1, T_obs), t)
+    p_para=2
   } else if (tipo == "cuadratica") {
     X = cbind(rep(1, T_obs), t, t^2)
+    p_para=3
   } else if (tipo == "exponencial") {
     X = cbind(rep(1, T_obs), t)
+    p_para=2
   }
   
   # Número de variables predictoras (incluye el intercepto)
@@ -383,7 +386,7 @@ ajustar_tendencia <- function(y, tipo = c("lineal", "cuadratica", "exponencial")
     return(pred)
   }
   
-  return(list(yhat = Y_hat,pronosticar = pronosticar_f,parametros = parametros))
+  return(list(yhat = Y_hat,pronosticar = pronosticar_f,parametros = parametros,p = p_para))
 }
 
 #Función de usuario ajustar_holt() la cual depende de las variables y, alpha y bheta
@@ -480,7 +483,7 @@ ajustar_holt = function(y, alpha, beta) {
     L_final + T_final * vector_h
   }
   
-  return(list(yhat = yhat,pronosticar = pronosticar_f,parametros = parametros))
+  return(list(yhat = yhat,pronosticar = pronosticar_f,parametros = parametros,p=2))
 }
 
 
