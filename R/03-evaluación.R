@@ -46,3 +46,14 @@ ljung_box <- function(r,T_obs,m,p){
   return(resultados)
   
 }
+
+
+
+
+#Ejemplo
+t = 1:100
+x = 5 + 4*t +5.5*t^2+2*cos(pi/3*t) + rnorm(100)
+
+x = ts(x,start = c(2005,8),frequency = 4)
+
+leer_serie(x,"DANE","$")

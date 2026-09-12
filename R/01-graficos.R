@@ -97,5 +97,5 @@ correlograma <- function(datos, m = NULL){
     scale_x_continuous(breaks = 1:m) +
     theme_minimal()
   
-  return(grafico1 / grafico2)
+  return(list(grafico1 / grafico2,acf_mano=acf_mano,pacf_mano=pacf_mano,m=m))
 }
