@@ -5,6 +5,7 @@ library(tidyr)
 library(tibble)
 library(ggplot2)
 library(patchwork)
+library(stats)
 source("https://cdn.jsdelivr.net/gh/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban@main/R/02-metodos.R", encoding = "UTF-8")
 
 
