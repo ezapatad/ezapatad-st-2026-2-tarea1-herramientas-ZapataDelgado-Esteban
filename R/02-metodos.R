@@ -5,7 +5,7 @@ library(tidyr)
 library(tibble)
 library(ggplot2)
 library(patchwork)
-source("https://cdn.jsdelivr.net/gh/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban@main/R/01-graficos.R", encoding = "UTF-8")
+source("https://raw.githubusercontent.com/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban/refs/heads/main/R/01-graficos.R", encoding = "UTF-8")
 
 #Función de usuario ajustar_media() la cual depende de las variables y,h
 #y: arreglo númerico que muestra los valores que toma la serie en los T primeros periodos
