@@ -5,7 +5,7 @@ library(tidyr)
 library(tibble)
 library(ggplot2)
 library(patchwork)
-source("C:/Users/betid/OneDrive/Documents/Universidad/Semestre 2026-2/Series de Tiempo Univariadas/Tareas/Tarea1/st-2026-2-tarea-1-herramientas-ZapataDelgado-Esteban/R/02-metodos.R")
+source("https://raw.githubusercontent.com/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban/refs/heads/main/R/02-metodos.R")
 
 #Función de usuario ljung_box() la cual depende de las variables r,T_obs,m,p
 #r: arreglo númerico donde se guardan los valores de la acf
@@ -187,21 +187,21 @@ medidas <- function(y,e,s=NULL){
 
 
 #Ejemplo
-t = 1:100
-x = 5 + 1.5*t +0.3*t^2+2*cos(pi/3*t) + rnorm(100,4,36)
-
-x = ts(x,start = c(2005,8),frequency = 4)
-
-data = leer_serie(x,"DANE","$")
-graficar_serie(data,"Gráfica serie")
-ajustar_tendencia(data$y,tipo = "cuadratica")
-p = ajustar_tendencia(data$y,tipo="cuadratica")$p
-yhat = ajustar_tendencia(data$y,tipo="cuadratica")$yhat
-acf_mano = correlograma(datos = data)$acf_mano
-
-ljung_box(r = acf_mano,T_obs = length(data$y),m = 24,p = p)
-Box.test(data$y,lag=24,type="Ljung-Box",fitdf = p)
-
-e = data$y - yhat
-durbin_watson(e)
-medidas(data$y,e,s=4)
+# t = 1:100
+# x = 5 + 1.5*t +0.3*t^2+2*cos(pi/3*t) + rnorm(100,4,36)
+# 
+# x = ts(x,start = c(2005,8),frequency = 4)
+# 
+# data = leer_serie(x,"DANE","$")
+# graficar_serie(data,"Gráfica serie")
+# ajustar_tendencia(data$y,tipo = "cuadratica")
+# p = ajustar_tendencia(data$y,tipo="cuadratica")$p
+# yhat = ajustar_tendencia(data$y,tipo="cuadratica")$yhat
+# acf_mano = correlograma(datos = data)$acf_mano
+# 
+# ljung_box(r = acf_mano,T_obs = length(data$y),m = 24,p = p)
+# Box.test(data$y,lag=24,type="Ljung-Box",fitdf = p)
+# 
+# e = data$y - yhat
+# durbin_watson(e)
+# medidas(data$y,e,s=4)
