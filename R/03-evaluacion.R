@@ -6,7 +6,7 @@ library(tibble)
 library(ggplot2)
 library(patchwork)
 library(stats)
-source("https://cdn.jsdelivr.net/gh/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban@main/R/02-metodos.R", encoding = "UTF-8")
+source("C:/Users/betid/OneDrive/Documents/Universidad/Semestre 2026-2/Series de Tiempo Univariadas/Tareas/Tarea1/st-2026-2-tarea-1-herramientas-ZapataDelgado-Esteban/R/02-metodos.R")
 
 
 #Función de usuario ljung_box() la cual depende de las variables r,T_obs,m,p
