@@ -6,8 +6,8 @@ library(tibble)
 library(ggplot2)
 library(patchwork)
 library(stats)
+source("https://cdn.jsdelivr.net/gh/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban@main/R/00-lectura.R", encoding = "UTF-8")
 source("https://cdn.jsdelivr.net/gh/ezapatad/ezapatad-st-2026-2-tarea1-herramientas-ZapataDelgado-Esteban@main/R/01-graficos.R", encoding = "UTF-8")
-
 #Función de usuario ajustar_media() la cual depende de las variables y,h
 #y: arreglo númerico que muestra los valores que toma la serie en los T primeros periodos
 #h: número de periodos de tiempos luego de la región de entrenamiento, es decir pronóstico máximo Y_T+h
